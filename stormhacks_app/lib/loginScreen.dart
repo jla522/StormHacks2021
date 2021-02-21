@@ -79,9 +79,14 @@ class _loginState extends State<login> with SingleTickerProviderStateMixin {
           new Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new FlutterLogo(
-                size: _iconAnimation.value * 100,
+              // new FlutterLogo(
+              //   size: _iconAnimation.value * 100,
+              // ),
+              Image(
+                image: new AssetImage("assets/images/coffee.png"),
+                height: 200,
               ),
+              // Image.asset("assets/images/coffee.png"),
               new Form(
                 child: new Theme(
                   data: new ThemeData(
