@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'navBar.dart';
 import './UIWidgets/FairTradeProgress.dart';
+import './UIWidgets/LogoutBtn.dart';
 
 class tokens extends StatefulWidget {
   tokens({Key key}) : super(key: key);
@@ -35,7 +36,12 @@ class _tokensState extends State<tokens> {
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [_buildRequestMontlyPass(nextMonth)],
-              ))
+              )),
+              Container(
+                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [LogoutBtn()],
+              )),
             ])));
   }
 

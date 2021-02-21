@@ -17,22 +17,27 @@ class _scheduleState extends State<schedule> {
 	Widget build(BuildContext context) {
 		return Scaffold(
 			bottomNavigationBar: navBar(),
-			body: Container(
-				margin: const EdgeInsets.fromLTRB(30, 70, 30, 30),
-				child: Column(
-					crossAxisAlignment: CrossAxisAlignment.start,
-					children: [
-						Text("Schedule (MON-FRI)", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),	
-						daySection(currentDay, currentDayRestaurants, currentDayDeals),
-						for(int i = 0; i < daysOfWeek.length; i++) daySection(daysOfWeek[i], currentDayRestaurants, currentDayDeals),
-					],
-				), 
-			),
-		);
-  }
-}
+			body: ListView(
+				children: <Widget>[
+					Container(
+						margin: const EdgeInsets.fromLTRB(30, 70, 30, 30),
+						child: Column(
+							crossAxisAlignment: CrossAxisAlignment.start,
+							children: [
+								Text("Schedule (MON-FRI)", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),	
+								daySection(currentDay, currentDayRestaurants, currentDayDeals),
+								for(int i = 0; i < daysOfWeek.length; i++) daySection(daysOfWeek[i], currentDayRestaurants, currentDayDeals),
+							],//children
+						),//column
+					),//container	
+				],//children
+			),//listview
+		);//scaffold
+	}//Widget Build
+}//class
 
-class daySection extends StatelessWidget{
+class daySection extends StatelessWidget{ 
+//daySection creates the day string (i.e. Tuesday), and passes in a list of restaurants and their deals for that given day to class:foodDeal
 	final String _day;
 	final List<String> _restaurants;
 	final List<String> _deals;
@@ -43,7 +48,7 @@ class daySection extends StatelessWidget{
 		int restaurant_len = _restaurants.length;
 		int deal_len = _deals.length;
 		return Container(
-			padding: const EdgeInsets.fromLTRB(10, 15, 30, 70),
+			margin: const EdgeInsets.fromLTRB(0, 0, 0, 50),
 			child: Column(
 				crossAxisAlignment: CrossAxisAlignment.start,
 				children: <Widget>[
@@ -53,11 +58,12 @@ class daySection extends StatelessWidget{
 					
 				],//children
 			),//Column
-		); //container
+		);
 	}//widget
 }//daySection
 
 class foodDeal extends StatelessWidget {
+//foodDeal prints out a picture of the restaurant, the restaurant string, and their deal.
 	final String _restaurant;
 	final String _deal;
 	
@@ -65,15 +71,24 @@ class foodDeal extends StatelessWidget {
 	@override
 	Widget build(BuildContext context){
 		return Row(
+			mainAxisAlignment: MainAxisAlignment.start,
 			children: <Widget>[
-				//i have no idea how to add a box
-				Column(
-					children: <Widget>[
-						Text(_restaurant, style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
-						Text(_deal, style: TextStyle(fontSize: 24)),
-					], //children
-				), //Column
-			],//children
-		);//row
+				Container(
+					height: 60.0,
+					width: 60.0,
+					decoration: BoxDecoration( image: DecorationImage(image: AssetImage('assets/images/settings.png'), fit: BoxFit.fill)),
+				),
+				Container(
+					margin: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+					child: Column(
+						crossAxisAlignment: CrossAxisAlignment.start,
+						children: <Widget>[
+							Text(_restaurant, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+							Text(_deal, style: TextStyle(fontSize: 12) ),
+						],//children
+					), //column
+				),//container
+			], //children
+		); //Column
 	}//build
 }
