@@ -10,6 +10,7 @@ class login extends StatefulWidget {
 class _loginState extends State<login> {
   String username = "Jordan";
   int numTokens = 12;
+  int numMealsAway = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +20,17 @@ class _loginState extends State<login> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildUserPrompt(),
+          _buildUserPrompt(username, numTokens),
           Text("Today's Meals", style: TextStyle(fontSize: 20)),
           _buildTodaysMeals(),
           Text("Fair Trade Progress", style: TextStyle(fontSize: 20)),
-          _buildTradeProgess(),
+          _buildTradeProgess(numMealsAway),
         ],
       ),
     ));
   }
 
-  Container _buildUserPrompt() {
+  Container _buildUserPrompt(String name, int numTokens) {
     return Container(
       margin: const EdgeInsets.only(bottom: 50),
       width: 400,
@@ -37,17 +38,24 @@ class _loginState extends State<login> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            "Hi Jordan",
-            style: TextStyle(fontSize: 40),
-          ),
-          Text(
-            "You have 12 tokens.",
-            style: TextStyle(fontSize: 18),
-          ),
+          Text("Hi $name", style: TextStyle(fontSize: 40)),
+          _buildRemainingTokens(numTokens)
         ],
       ),
     );
+  }
+
+  RichText _buildRemainingTokens(int numTokens) {
+    return RichText(
+        text: TextSpan(
+            text: "You have ",
+            style: TextStyle(fontSize: 18, color: Colors.black),
+            children: [
+          TextSpan(
+              text: "$numTokens",
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          TextSpan(text: " tokens.")
+        ]));
   }
 
   Container _buildTodaysMeals() {
@@ -61,13 +69,16 @@ class _loginState extends State<login> {
             margin: const EdgeInsets.only(top: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [_buildMeals(), _buildViewAllMeals()],
+              children: [_buildMeals(), _buildViewAllMealsBtn()],
             )));
   }
 
-  ElevatedButton _buildViewAllMeals() {
+  ElevatedButton _buildViewAllMealsBtn() {
     return ElevatedButton(
       child: Text("VIEW ALL"),
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.black)),
       onPressed: () {
         print("view all button pressed");
       },
@@ -90,7 +101,7 @@ class _loginState extends State<login> {
     return Container(height: dimension, width: dimension, color: color);
   }
 
-  Container _buildTradeProgess() {
+  Container _buildTradeProgess(int numMeals) {
     return Container(
         margin: const EdgeInsets.only(top: 10, bottom: 50),
         decoration:
@@ -102,7 +113,7 @@ class _loginState extends State<login> {
             child: Column(
               children: [
                 Text(
-                  "2 Fair Trade meals away from an extra token",
+                  "$numMeals Fair Trade meals away from an extra token",
                   style: TextStyle(fontSize: 18),
                 ),
                 _buildTokenRange(0, 5),
@@ -123,6 +134,7 @@ class _loginState extends State<login> {
   LinearProgressIndicator _buildProgressBar({double progressVal = 0.6}) {
     return LinearProgressIndicator(
       backgroundColor: Colors.grey,
+      valueColor: AlwaysStoppedAnimation(Colors.black),
       minHeight: 20,
       value: progressVal,
     );
