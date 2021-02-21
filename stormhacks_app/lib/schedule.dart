@@ -8,13 +8,27 @@ class schedule extends StatefulWidget {
   _scheduleState createState() => _scheduleState();
 }
 
+
+//TODO::
+//Query database for a day's restaurants & the restaurant's dishes/pictures
+//printint restaurants and their pictures/dishes are currently hard coded and must be adjusted
+
+
 class _scheduleState extends State<schedule> {
 	@override
+	Map days = {1: 'Monday', 2: 'Tuesday', 3: 'Wednesday', 4: 'Thursday', 5: 'Friday'}; 	
+
+
 	String currentDay = "Monday (Today)";
 	List<String> currentDayRestaurants = ["Gawon (MBC)", "Bubble Waffle (MBC)", "Subway (Mackenzie)"];
 	List<String> currentDayDeals       = ["Bibimbap", "Bubble Waffle + BBT", "Tuna Salad (6-inch)"];
 	List<String> daysOfWeek = ["Tuesday", "Wednesday", "Thursday", "Friday"];
 	Widget build(BuildContext context) {
+		//days.entries.forEach((e){
+			//create a map with {day: [restaurant1, restaurant2, restaurant3], day2: [restaurant1, restaurant2]}
+			//create a map with {restaurant1: dish1, restaurant2: dish2}
+			//determine current day
+		//});
 		return Scaffold(
 			bottomNavigationBar: navBar(),
 			body: ListView(
@@ -25,8 +39,9 @@ class _scheduleState extends State<schedule> {
 							crossAxisAlignment: CrossAxisAlignment.start,
 							children: [
 								Text("Schedule (MON-FRI)", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),	
-								daySection(currentDay, currentDayRestaurants, currentDayDeals),
-								for(int i = 0; i < daysOfWeek.length; i++) daySection(daysOfWeek[i], currentDayRestaurants, currentDayDeals),
+								daySection(currentDay, currentDayRestaurants, currentDayDeals),//only prints currentDay, its restaurants, and the restaurant's deals (hard coded)
+								for(int i = 0; i < daysOfWeek.length; i++) daySection(daysOfWeek[i], currentDayRestaurants/* this should be something like restaurants["Tuesday"] */, currentDayDeals/* should be like deals["Tuesday"]*/),
+																											//where deals is a map of {restaurant: deal} 
 							],//children
 						),//column
 					),//container	
