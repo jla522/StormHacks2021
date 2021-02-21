@@ -7,6 +7,8 @@ import 'navBar.dart';
 import './UIWidgets/FairTradeProgress.dart';
 import './models/Dish.dart';
 import './models/Query.dart';
+import './models/User.dart';
+import './auth/BasicAuth.dart';
 
 DateTime now = new DateTime.now();
 String dayOfWeek = DateFormat('EEEE').format(now);
@@ -20,7 +22,7 @@ class home extends StatefulWidget {
 
 class _homeState extends State<home> {
   List<Dish> dishes = [];
-
+  User user;
   String username = "Jordan";
   int numTokens = 12;
   int numMealsAway = 2;
@@ -31,6 +33,16 @@ class _homeState extends State<home> {
             this.dishes = dishes;
           })
         });
+    getUser().then((user) {
+      getUserInfo(user.uid).then((userInfo) {
+        print("userInfo from home.dart");
+        print(userInfo.firstName);
+        print(userInfo.numTokensAway);
+        this.setState(() {
+          this.user = userInfo;
+        });
+      });
+    });
   }
 
   @override
