@@ -89,7 +89,7 @@ class _buyState extends State<buy> {
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+              padding: EdgeInsets.fromLTRB(15, 15, 0, 15),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,12 +105,17 @@ class _buyState extends State<buy> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(
-                        dish,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.normal,
+                      Container(
+                        width: 110,
+                        child: Text(
+                          dish,
+                          overflow: TextOverflow.fade,
+                          softWrap: false,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
                       _claimButton(),
