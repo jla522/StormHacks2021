@@ -17,16 +17,20 @@ class _scheduleState extends State<schedule> {
 	Widget build(BuildContext context) {
 		return Scaffold(
 			bottomNavigationBar: navBar(),
-			body: Container(
-				margin: const EdgeInsets.fromLTRB(30, 70, 30, 30),
-				child: Column(
-					crossAxisAlignment: CrossAxisAlignment.start,
-					children: [
-						Text("Schedule (MON-FRI)", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),	
-						daySection(currentDay, currentDayRestaurants, currentDayDeals),
-						for(int i = 0; i < daysOfWeek.length; i++) daySection(daysOfWeek[i], currentDayRestaurants, currentDayDeals),
-					],
-				), 
+			body: ListView(
+			children: <Widget>[
+				Container(
+					margin: const EdgeInsets.fromLTRB(30, 70, 30, 30),
+					child: Column(
+						crossAxisAlignment: CrossAxisAlignment.start,
+						children: [
+							Text("Schedule (MON-FRI)", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),	
+							daySection(currentDay, currentDayRestaurants, currentDayDeals),
+							for(int i = 0; i < daysOfWeek.length; i++) daySection(daysOfWeek[i], currentDayRestaurants, currentDayDeals),
+						],
+					), 
+				),	
+			],
 			),
 		);
   }
@@ -43,7 +47,7 @@ class daySection extends StatelessWidget{
 		int restaurant_len = _restaurants.length;
 		int deal_len = _deals.length;
 		return Container(
-			padding: const EdgeInsets.fromLTRB(10, 15, 30, 70),
+			margin: const EdgeInsets.fromLTRB(0, 0, 0, 50),
 			child: Column(
 				crossAxisAlignment: CrossAxisAlignment.start,
 				children: <Widget>[
@@ -53,7 +57,7 @@ class daySection extends StatelessWidget{
 					
 				],//children
 			),//Column
-		); //container
+		);
 	}//widget
 }//daySection
 
@@ -64,16 +68,13 @@ class foodDeal extends StatelessWidget {
 	foodDeal(this._restaurant, this._deal);
 	@override
 	Widget build(BuildContext context){
-		return Row(
+		return Column(
+			crossAxisAlignment: CrossAxisAlignment.start,
 			children: <Widget>[
-				//i have no idea how to add a box
-				Column(
-					children: <Widget>[
-						Text(_restaurant, style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
-						Text(_deal, style: TextStyle(fontSize: 24)),
-					], //children
-				), //Column
-			],//children
-		);//row
+				Text(_restaurant, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+				Text(_deal, style: TextStyle(fontSize: 12) ),
+				//Divider(color: Colors.black),
+			], //children
+		); //Column
 	}//build
 }
