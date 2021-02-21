@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'navBar.dart';
 import './UIWidgets/FairTradeProgress.dart';
@@ -11,6 +12,7 @@ class home extends StatefulWidget {
 
 class _homeState extends State<home> {
   @override
+  final dbRef = FirebaseDatabase.instance.reference();
   String username = "Jordan";
   int numTokens = 12;
   int numMealsAway = 2;
@@ -87,6 +89,9 @@ class _homeState extends State<home> {
           backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
           foregroundColor: MaterialStateProperty.all<Color>(Colors.black)),
       onPressed: () {
+        dbRef.once().then((DataSnapshot snapshot) {
+          print("Data: ${snapshot.value}");
+        });
         print("view all button pressed");
       },
     );
@@ -107,43 +112,4 @@ class _homeState extends State<home> {
   Container _buildMeal(double dimension, Color color) {
     return Container(height: dimension, width: dimension, color: color);
   }
-
-  // Container _buildTradeProgess(int numMeals) {
-  //   return Container(
-  //       margin: const EdgeInsets.only(top: 10, bottom: 50),
-  //       decoration:
-  //           BoxDecoration(border: Border.all(color: Colors.black, width: 3)),
-  //       width: 400,
-  //       height: 160,
-  //       child: Container(
-  //           margin: const EdgeInsets.all(20),
-  //           child: Column(
-  //             children: [
-  //               Text(
-  //                 "$numMeals Fair Trade meals away from an extra token",
-  //                 style: TextStyle(fontSize: 18),
-  //               ),
-  //               _buildTokenRange(0, 5),
-  //               _buildProgressBar()
-  //             ],
-  //           )));
-  // }
-
-  // Container _buildTokenRange(int start, int end) {
-  //   return Container(
-  //       margin: const EdgeInsets.only(top: 20, bottom: 10),
-  //       child: Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //         children: [Text(start.toString()), Text(end.toString())],
-  //       ));
-  // }
-
-  // LinearProgressIndicator _buildProgressBar({double progressVal = 0.6}) {
-  //   return LinearProgressIndicator(
-  //     backgroundColor: Colors.grey,
-  //     valueColor: AlwaysStoppedAnimation(Colors.black),
-  //     minHeight: 20,
-  //     value: progressVal,
-  //   );
-  // }
 }
