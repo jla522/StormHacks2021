@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'navBar.dart';
+import 'purchase.dart';
 
 import './models/Dish.dart';
 import './models/Query.dart';
@@ -86,6 +87,9 @@ class _buyState extends State<buy> {
             height: 120, // add image
             width: 120,
             color: Colors.black,
+            //child: Image(
+            //  image: AssetImage('assets/images/sfu.JPG'),
+            //),
           ),
           Expanded(
             child: Padding(
@@ -144,7 +148,14 @@ class _buyState extends State<buy> {
               fontSize: 15,
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return Purchase();
+              }
+            );
+          },
         ));
   }
 
@@ -158,4 +169,6 @@ class _buyState extends State<buy> {
 
     return Container(child: Column(children: todaysMeals));
   }
+
+  
 }
