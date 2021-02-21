@@ -65,7 +65,7 @@ class _homeState extends State<home> {
               _buildTodaysMeals(),
               Text("Fair Trade Progress", style: TextStyle(fontSize: 20)),
               FairTradeProgress(
-                numMeals: 12,
+                numMeals: numMealsAway,
                 showBorder: true,
               ),
             ],
