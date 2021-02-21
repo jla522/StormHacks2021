@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import './auth/BasicAuth.dart';
 import './auth/GoogleAuth.dart';
 
 class login extends StatefulWidget {
@@ -14,9 +15,24 @@ class _loginState extends State<login> with SingleTickerProviderStateMixin {
   AnimationController _iconAnimationController;
   Animation<double> _iconAnimation;
 
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   void googleSignIn() {
     signInWithGoogle().then((value) =>
         {this.user = user, Navigator.pushReplacementNamed(context, '/home')});
+  }
+
+  void basicRegister(String email, String password) {
+    register(email, password).then((value) => {
+          {this.user = user, Navigator.pushReplacementNamed(context, '/home')}
+        });
+  }
+
+  void basicSignIn(String email, String password) {
+    signInWithBasic(email, password).then((value) => {
+          {this.user = user, Navigator.pushReplacementNamed(context, '/home')}
+        });
   }
 
   Widget googleLoginButton() {
@@ -80,12 +96,14 @@ class _loginState extends State<login> with SingleTickerProviderStateMixin {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         new TextFormField(
+                          controller: emailController,
                           decoration: new InputDecoration(
                             labelText: "Enter Email",
                           ),
                           keyboardType: TextInputType.emailAddress,
                         ),
                         new TextFormField(
+                          controller: passwordController,
                           decoration: new InputDecoration(
                             hintText: "Enter Password",
                           ),
@@ -100,7 +118,11 @@ class _loginState extends State<login> with SingleTickerProviderStateMixin {
                           textColor: Colors.white,
                           child: new Text("Login"),
                           onPressed: () => {
-                            Navigator.pushReplacementNamed(context, '/home')
+                            basicSignIn(
+                                emailController.text, passwordController.text)
+                            // basicRegister(
+                            //     emailController.text, passwordController.text)
+                            // Navigator.pushReplacementNamed(context, '/home')
                           },
                           splashColor: Colors.greenAccent,
                         ),
