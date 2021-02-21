@@ -21,39 +21,52 @@ class buy extends StatefulWidget {
 }
 
 class _buyState extends State<buy> {
-  /*List<Dish> dishes = [];
+  List<Dish> dishes = [];
 
   void loadDishes(String weekday) {
     getDishes(weekday).then((dishes) => {
           this.setState(() {
             this.dishes = dishes;
-          })
+          }),
+          print(dishes),
         });
-  }*/
+  }
 
   @override
+  void initState() {
+    super.initState();
+    loadDishes(dayOfWeek);
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          SizedBox(height: 50),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            child: Padding(
-              padding: EdgeInsets.only(left: 30),
-              child: Text(
-                date,
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 50),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: EdgeInsets.only(left: 30),
+                child: Text(
+                  date,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(height: 20),
-          _todaysEvents('Gawon (MBC)', 'Bibimbap'),
-        ],
+            SizedBox(height: 20),
+            //List<Container> todaysMeals = [],
+            _getMeals(),
+            //for (final dish in dishes){
+            //  todaysMeals.add(_todaysEvents('test', 'test'))
+            //}
+
+          ],
+        ),
       ),
       bottomNavigationBar: navBar(),
     );
@@ -130,4 +143,13 @@ class _buyState extends State<buy> {
           onPressed: () {},
         ));
   }
+  Widget _getMeals(){
+    //List<Container> todaysMeals = [];
+    _todaysEvents('test', 'test');
+    //for (final dish in dishes){
+      //_todaysEvents('test', 'test');
+      //todaysMeals.add(_todaysEvents(dish.restaurant, dish.dishName));
+    //}
+  }
+
 }
