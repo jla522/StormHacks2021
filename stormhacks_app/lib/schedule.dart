@@ -1,6 +1,8 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'navBar.dart';
-
+import './models/Dish.dart';
+import './models/Query.dart';
 class schedule extends StatefulWidget {
   schedule({Key key}) : super(key: key);
 
@@ -9,26 +11,34 @@ class schedule extends StatefulWidget {
 }
 
 
+	
+List<String> daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 //TODO::
 //Query database for a day's restaurants & the restaurant's dishes/pictures
 //printint restaurants and their pictures/dishes are currently hard coded and must be adjusted
 
 
 class _scheduleState extends State<schedule> {
+	List<Dish> dishes = [];	
+	void loadDishes(String weekday) {
+		getDishes(weekday).then((dishes) => {
+			this.setState(() {
+				this.dishes = dishes;
+			})
+		});
+	}
 	@override
-	Map days = {1: 'Monday', 2: 'Tuesday', 3: 'Wednesday', 4: 'Thursday', 5: 'Friday'}; 	
-
-
-	String currentDay = "Monday (Today)";
+	void initState() {
+		super.initState();
+		daysOfWeek.forEach((String day) {
+			loadDishes(day);
+		});
+	}
+	
 	List<String> currentDayRestaurants = ["Gawon (MBC)", "Bubble Waffle (MBC)", "Subway (Mackenzie)"];
 	List<String> currentDayDeals       = ["Bibimbap", "Bubble Waffle + BBT", "Tuna Salad (6-inch)"];
-	List<String> daysOfWeek = ["Tuesday", "Wednesday", "Thursday", "Friday"];
+	@override
 	Widget build(BuildContext context) {
-		//days.entries.forEach((e){
-			//create a map with {day: [restaurant1, restaurant2, restaurant3], day2: [restaurant1, restaurant2]}
-			//create a map with {restaurant1: dish1, restaurant2: dish2}
-			//determine current day
-		//});
 		return Scaffold(
 			bottomNavigationBar: navBar(),
 			body: ListView(
@@ -38,10 +48,8 @@ class _scheduleState extends State<schedule> {
 						child: Column(
 							crossAxisAlignment: CrossAxisAlignment.start,
 							children: [
-								Text("Schedule (MON-FRI)", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),	
-								daySection(currentDay, currentDayRestaurants, currentDayDeals),//only prints currentDay, its restaurants, and the restaurant's deals (hard coded)
-								for(int i = 0; i < daysOfWeek.length; i++) daySection(daysOfWeek[i], currentDayRestaurants/* this should be something like restaurants["Tuesday"] */, currentDayDeals/* should be like deals["Tuesday"]*/),
-																											//where deals is a map of {restaurant: deal} 
+								Text("Schedule", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),	
+								for(int i = 0; i < daysOfWeek.length; i++) daySection(daysOfWeek[i], dishes),
 							],//children
 						),//column
 					),//container	
@@ -54,14 +62,10 @@ class _scheduleState extends State<schedule> {
 class daySection extends StatelessWidget{ 
 //daySection creates the day string (i.e. Tuesday), and passes in a list of restaurants and their deals for that given day to class:foodDeal
 	final String _day;
-	final List<String> _restaurants;
-	final List<String> _deals;
-
-	daySection(this._day, this._restaurants, this._deals);
+	final List<Dish> _dishes; 
+	daySection(this._day, this._dishes);
 	@override
 	Widget build(BuildContext context){
-		int restaurant_len = _restaurants.length;
-		int deal_len = _deals.length;
 		return Container(
 			margin: const EdgeInsets.fromLTRB(0, 0, 0, 50),
 			child: Column(
@@ -69,7 +73,7 @@ class daySection extends StatelessWidget{
 				children: <Widget>[
 					Text(_day, style: TextStyle(fontSize: 20), textAlign: TextAlign.left),
 					Divider(color: Colors.black),
-					for(int i = 0; i < restaurant_len; i++)	foodDeal(_restaurants[i], _deals[i]),
+					for(final dish in _dishes) foodDeal(dish.restaurant, dish.dishName),
 					
 				],//children
 			),//Column
@@ -85,13 +89,14 @@ class foodDeal extends StatelessWidget {
 	foodDeal(this._restaurant, this._deal);
 	@override
 	Widget build(BuildContext context){
+		String imageString = "assets/images/"+_restaurant+".png";
 		return Row(
 			mainAxisAlignment: MainAxisAlignment.start,
 			children: <Widget>[
 				Container(
 					height: 60.0,
 					width: 60.0,
-					decoration: BoxDecoration( image: DecorationImage(image: AssetImage('assets/images/settings.png'), fit: BoxFit.fill)),
+					decoration: BoxDecoration( image: DecorationImage(image: AssetImage(imageString), fit: BoxFit.fill)),
 				),
 				Container(
 					margin: const EdgeInsets.fromLTRB(30, 0, 0, 0),
@@ -103,6 +108,12 @@ class foodDeal extends StatelessWidget {
 						],//children
 					), //column
 				),//container
+				//Container(
+				//	margin: const EdgeInsets.only(right: 30),
+				//	height: 40.0,
+				//	width: 40.0,
+				//	decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/settings.png'), fit: BoxFit.fill)),
+				//),//container
 			], //children
 		); //Column
 	}//build
