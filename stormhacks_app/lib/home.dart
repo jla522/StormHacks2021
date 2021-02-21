@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'navBar.dart';
 
 class home extends StatefulWidget {
   home({Key key}) : super(key: key);
@@ -16,24 +17,25 @@ class _homeState extends State<home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        bottomNavigationBar: navBar(),
         body: Container(
-      margin: const EdgeInsets.fromLTRB(30, 70, 30, 30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildUserPrompt(username, numTokens),
-          Text("Today's Meals", style: TextStyle(fontSize: 20)),
-          _buildTodaysMeals(),
-          Text("Fair Trade Progress", style: TextStyle(fontSize: 20)),
-          _buildTradeProgess(numMealsAway),
-        ],
-      ),
-    ));
+          margin: const EdgeInsets.fromLTRB(30, 70, 30, 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildUserPrompt(username, numTokens),
+              Text("Today's Meals", style: TextStyle(fontSize: 20)),
+              _buildTodaysMeals(),
+              Text("Fair Trade Progress", style: TextStyle(fontSize: 20)),
+              _buildTradeProgess(numMealsAway),
+            ],
+          ),
+        ));
   }
 
   Container _buildUserPrompt(String name, int numTokens) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 50),
+      margin: const EdgeInsets.only(bottom: 30),
       width: 400,
       height: 100,
       child: Column(
@@ -61,7 +63,7 @@ class _homeState extends State<home> {
 
   Container _buildTodaysMeals() {
     return Container(
-        margin: const EdgeInsets.only(top: 10, bottom: 50),
+        margin: const EdgeInsets.only(top: 10, bottom: 40),
         decoration:
             BoxDecoration(border: Border.all(color: Colors.black, width: 3)),
         width: 400,
