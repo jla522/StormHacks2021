@@ -4,6 +4,9 @@ import 'package:intl/intl.dart';
 
 import 'navBar.dart';
 
+import './models/Dish.dart';
+import './models/Query.dart';
+
 // Getting the date
 DateTime now = new DateTime.now();
 String date = DateFormat('EEEE LLL d').format(now);
@@ -18,6 +21,16 @@ class buy extends StatefulWidget {
 }
 
 class _buyState extends State<buy> {
+  /*List<Dish> dishes = [];
+
+  void loadDishes(String weekday) {
+    getDishes(weekday).then((dishes) => {
+          this.setState(() {
+            this.dishes = dishes;
+          })
+        });
+  }*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
