@@ -58,15 +58,31 @@ class _loginState extends State<login> {
         height: 175,
         child: Container(
             margin: const EdgeInsets.only(top: 20),
-            child: Row(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildMeal(80.0, Colors.grey),
-                _buildMeal(80.0, Colors.grey),
-                _buildMeal(80.0, Colors.grey),
-              ],
+              children: [_buildMeals(), _buildViewAllMeals()],
             )));
+  }
+
+  ElevatedButton _buildViewAllMeals() {
+    return ElevatedButton(
+      child: Text("VIEW ALL"),
+      onPressed: () {
+        print("view all button pressed");
+      },
+    );
+  }
+
+  Row _buildMeals() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildMeal(80.0, Colors.grey),
+        _buildMeal(80.0, Colors.grey),
+        _buildMeal(80.0, Colors.grey),
+      ],
+    );
   }
 
   Container _buildMeal(double dimension, Color color) {
