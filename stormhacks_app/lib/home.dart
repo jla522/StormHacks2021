@@ -1,7 +1,15 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import 'navBar.dart';
 import './UIWidgets/FairTradeProgress.dart';
+import './models/Dish.dart';
+import './models/Query.dart';
+
+DateTime now = new DateTime.now();
+String dayOfWeek = DateFormat('EEEE').format(now);
 
 class home extends StatefulWidget {
   home({Key key}) : super(key: key);
@@ -11,11 +19,25 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
-  @override
-  final dbRef = FirebaseDatabase.instance.reference();
+  List<Dish> dishes = [];
+
   String username = "Jordan";
   int numTokens = 12;
   int numMealsAway = 2;
+
+  void loadDishes(String weekday) {
+    getDishes(weekday).then((dishes) => {
+          this.setState(() {
+            this.dishes = dishes;
+          })
+        });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadDishes(dayOfWeek);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,27 +111,37 @@ class _homeState extends State<home> {
           backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
           foregroundColor: MaterialStateProperty.all<Color>(Colors.black)),
       onPressed: () {
-        dbRef.once().then((DataSnapshot snapshot) {
-          print("Data: ${snapshot.value}");
-        });
-        print("view all button pressed");
+        print("Pressed VIEW ALL button");
       },
     );
   }
 
   Row _buildMeals() {
+    List<Container> todaysMeals = [];
+    for (final dish in dishes) {
+      todaysMeals.add(_buildMeal(dish.restaurant, dish.dishName));
+    }
+
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildMeal(80.0, Colors.grey),
-        _buildMeal(80.0, Colors.grey),
-        _buildMeal(80.0, Colors.grey),
-      ],
-    );
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: todaysMeals);
   }
 
-  Container _buildMeal(double dimension, Color color) {
-    return Container(height: dimension, width: dimension, color: color);
+  Container _buildMeal(String restaurant, String dishName) {
+    double dimension = 90.0;
+    Color color = Colors.grey;
+    return Container(
+        height: dimension,
+        width: dimension,
+        color: color,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(restaurant, style: TextStyle(fontSize: 14)),
+            Text(dishName, style: TextStyle(fontSize: 12)),
+          ],
+        ));
   }
 }
