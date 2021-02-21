@@ -64,7 +64,6 @@ class _buyState extends State<buy> {
             //for (final dish in dishes){
             //  todaysMeals.add(_todaysEvents('test', 'test'))
             //}
-
           ],
         ),
       ),
@@ -143,13 +142,15 @@ class _buyState extends State<buy> {
           onPressed: () {},
         ));
   }
-  Widget _getMeals(){
-    //List<Container> todaysMeals = [];
-    _todaysEvents('test', 'test');
-    //for (final dish in dishes){
-      //_todaysEvents('test', 'test');
-      //todaysMeals.add(_todaysEvents(dish.restaurant, dish.dishName));
-    //}
-  }
 
+  Widget _getMeals() {
+    List<Container> todaysMeals = [];
+    for (final dish in dishes) {
+      // _todaysEvents('test', 'test');
+      todaysMeals.add(_todaysEvents(dish.restaurant, dish.dishName));
+    }
+    // _todaysEvents('test', 'test');
+
+    return Container(child: Column(children: todaysMeals));
+  }
 }
