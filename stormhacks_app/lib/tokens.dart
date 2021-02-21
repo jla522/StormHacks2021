@@ -13,6 +13,8 @@ class _tokensState extends State<tokens> {
   int remainingTokens = 12;
   int usedTokens = 0;
   int numMealsAway = 2;
+  String currentMonth = "February";
+  String nextMonth = "MARCH";
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +24,18 @@ class _tokensState extends State<tokens> {
             margin: const EdgeInsets.fromLTRB(40, 70, 40, 30),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text("$remainingTokens Tokens remaining for February",
+              Text("$remainingTokens Tokens remaining for $currentMonth",
                   style: TextStyle(fontSize: 32)),
               _buildTokensUsed(usedTokens),
               FairTradeProgress(
                 numMeals: numMealsAway,
                 showBorder: true,
-              )
+              ),
+              Container(
+                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [_buildRequestMontlyPass(nextMonth)],
+              ))
             ])));
   }
 
@@ -47,5 +54,17 @@ class _tokensState extends State<tokens> {
                   text: " token(s) used",
                   style: TextStyle(fontWeight: FontWeight.normal)),
             ])));
+  }
+
+  ElevatedButton _buildRequestMontlyPass(String month) {
+    return ElevatedButton(
+      child: Text("REQUEST $month PASS"),
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.black)),
+      onPressed: () {
+        print("request monthly button pressed");
+      },
+    );
   }
 }
