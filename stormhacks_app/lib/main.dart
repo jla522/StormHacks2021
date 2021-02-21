@@ -7,6 +7,8 @@ import 'buy.dart';
 import 'tokens.dart';
 import 'settings.dart';
 
+import 'navBar.dart';
+
 void main() {
   runApp(MyApp());
 }
